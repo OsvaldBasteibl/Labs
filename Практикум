@@ -1,0 +1,90 @@
+#include <Windows.h>
+#include <iostream>
+#include <string>
+#include <utility>
+
+using namespace std;
+void printLetter(int amount, char* setLetter);
+void inputLetter(int amount, char* setLetter);
+void sortLetter(char* Letter);
+void concatenationLetter(char* setSum, char* setLetter_1, char* setLetter_2, char* setLetter_3);
+void compareAndcopyLetter(char* setLetterA, char* setLetterTemp, char* setLetterE);
+
+int main()
+{
+	setlocale(LC_ALL, "rus");
+	SetConsoleCP(1251); // Ввод с консоли в кодировке 1251
+	SetConsoleOutputCP(1251); // Вывод на консоль в кодировке 1251. Нужно только будет изменить шрифт консоли на Lucida Console или Consolas
+	int numA, numB, numC, numD, numE;
+	cout << "Введите количество элементов множества A: ";
+	cin >> numA;
+	cin.ignore();
+	char* setA = new char[numA + 1];
+	inputLetter(numA, setA);
+	cout << "Введите количество элементов множества B: ";
+	cin >> numB;
+	cin.ignore();
+	char* setB = new char[numB + 1];
+	inputLetter(numB, setB);
+	cout << "Введите количество элементов множества C: ";
+	cin >> numC;
+	cin.ignore();
+	char* setC = new char[numC + 1];
+	inputLetter(numC, setC);
+	cout << "Введите количество элементов множества D: ";
+	cin >> numD;
+	cin.ignore();
+	char* setD = new char[numD + 1];
+	inputLetter(numD, setD);
+	char* setTemp = new char[numB + numC + numD + 1];
+	concatenationLetter(setTemp, setB, setC, setD);
+	char* setE = new char[numA+2];
+	compareAndcopyLetter(setA, setTemp, setE);
+	cout << setE << endl;
+	printLetter(numA, setA);
+	delete[] setA;
+
+}
+void inputLetter(int amount, char* setLetter) {
+	int i = 0;
+	for (; i < amount; i++) {
+		cout << "Введите прописную букву: " << endl;
+		cin >> setLetter[i];
+		setLetter[i + 1] = NULL;
+		cin.clear();
+		cin.ignore();
+		if (!isupper((unsigned char)setLetter[i])) {
+			cin.ignore();
+			cin.clear();
+			i--;
+		}
+	}
+}
+void printLetter(int amount, char* setLetter) {
+	cout << "А={" << setLetter << "}" << endl;
+}
+void concatenationLetter(char* setSum, char* setLetter_1, char* setLetter_2, char* setLetter_3) {
+	strcpy(setSum, setLetter_1);
+	strcat(setSum, setLetter_2);
+	strcat(setSum, setLetter_3);
+}
+void sortLetter(char* Letter) {
+	for (int i = 0; i < strlen(Letter); i++) {
+		if (Letter[i] > Letter[i + 1]) {
+			swap(Letter[i], Letter[i + 1]);
+			i = i - i;
+		}
+	}
+}
+void compareAndcopyLetter(char* setLetterA, char* setLetterTemp, char* setLetterE) {
+	int i = 0;
+	char* temp;
+	for (int j = 0; j < strlen(setLetterA); j++) {
+		temp = strrchr(setLetterTemp, setLetterA[j]);
+		if (temp == NULL) {
+			setLetterE[i] = setLetterA[j];
+			setLetterE[i + 1] = NULL;
+			i++;
+		}		
+	}	
+}
